@@ -3,13 +3,13 @@ import 'package:api_dio_task/repository/character_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'launche_state.dart';
 
-part 'characters_state.dart';
-
-class CharactersCubit extends Cubit<CharactersState> {
+class CharactersCubit extends Cubit<LaunchesState> {
   final CharactersRepository charactersRepository;
 
-  CharactersCubit(this.charactersRepository) : super(CharactersInitial());
+  CharactersCubit(this.charactersRepository)
+      : super(const LaunchesState.charactersInitial());
 
   void getAllLaunches() {
     charactersRepository.getAllLaunches().then((characters) {
@@ -17,8 +17,8 @@ class CharactersCubit extends Cubit<CharactersState> {
     });
   }
 
-  void getOneLaunches(int flightnumber) {
-    charactersRepository.getOneLaunches(flightnumber).then((characters) {
+  void getOneLaunches(int flightNumber) {
+    charactersRepository.getOneLaunches(flightNumber).then((characters) {
       emit(CharacterLoaded(characters!));
     });
   }

@@ -2,6 +2,7 @@ import 'package:api_dio_task/cubit/characters_cubit.dart';
 import 'package:api_dio_task/widgets/character_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/launche_state.dart';
 
 class OneLaunchScreen extends StatefulWidget {
   final int arguments;
@@ -23,17 +24,22 @@ class _OneLaunchScreenState extends State<OneLaunchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: buildBlocWidget()));
+    return WillPopScope(
+        onWillPop: () async {
+          final cubit = BlocProvider.of<CharactersCubit>(context);
+          cubit.getAllLaunches();
+          return true;
+        },
+        child:
+            Scaffold(appBar: AppBar(), body: Center(child: buildBlocWidget())));
   }
 
   Widget buildBlocWidget() {
-    return BlocBuilder<CharactersCubit, CharactersState>(
+    return BlocBuilder<CharactersCubit, LaunchesState>(
         builder: (context, state) {
-      if (state is CharacterLoaded) {
-        return CharacterItem(character: state.launches);
-      } else {
-        return showLoadIndicator();
-      }
+      return state.maybeWhen(
+          characterLoaded: (launches) => CharacterItem(character: launches),
+          orElse: () => const Text('No Data'));
     });
   }
 

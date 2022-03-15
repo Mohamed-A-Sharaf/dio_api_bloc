@@ -14,10 +14,8 @@ class CharacterItem extends StatelessWidget {
         Navigator.of(context)
             .pushNamed(oneLaunchesRoute, arguments: character.flightNumber);
       },
-      child: Container(
-        child: Text(
-          character.launchYear!,
-        ),
+      child: Text(
+        character.launchYear!,
       ),
     );
   }

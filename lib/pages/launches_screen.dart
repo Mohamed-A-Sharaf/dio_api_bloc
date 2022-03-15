@@ -3,6 +3,7 @@ import 'package:api_dio_task/models/characters.dart';
 import 'package:api_dio_task/widgets/character_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/launche_state.dart';
 
 class LaunchesScreen extends StatefulWidget {
   const LaunchesScreen({Key? key}) : super(key: key);
@@ -19,13 +20,11 @@ class _LaunchesScreenState extends State<LaunchesScreen> {
   }
 
   Widget buildBlocWidget() {
-    return BlocBuilder<CharactersCubit, CharactersState>(
+    return BlocBuilder<CharactersCubit, LaunchesState>(
         builder: (context, state) {
-      if (state is CharactersLoaded) {
-        return buildLoadedListWidgets(state.characters);
-      } else {
-        return showLoadIndicator();
-      }
+      return state.maybeWhen(
+          charactersLoaded: (characters) => buildLoadedListWidgets(characters),
+          orElse: () => const Text('No Data'));
     });
   }
 

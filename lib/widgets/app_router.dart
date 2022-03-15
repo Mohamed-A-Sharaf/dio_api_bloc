@@ -4,16 +4,14 @@ import 'package:api_dio_task/pages/one_launch.dart';
 import 'package:api_dio_task/repository/character_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../constants/strings.dart';
-import '../services/web_service.dart';
 
 class AppRouter {
   late CharactersRepository charactersRepository;
   late CharactersCubit charactersCubit;
 
   AppRouter() {
-    charactersRepository = CharactersRepository(WebServices());
+    charactersRepository = CharactersRepository();
     charactersCubit = CharactersCubit(charactersRepository);
   }
 
